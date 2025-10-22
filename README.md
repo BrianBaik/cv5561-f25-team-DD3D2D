@@ -1,4 +1,4 @@
-# cv5561-f25-team-DiffusionModels
+# cv5561-f25-team-DD3D2D
 
 Project Title: Diffusion-Driven 3D Reconstruction from 2D Images
 

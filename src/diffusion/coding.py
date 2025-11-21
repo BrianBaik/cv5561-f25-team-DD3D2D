@@ -366,7 +366,7 @@ class DiffusionCoder:
         x0_hat = (x_t - sqrt_one_minus_alpha_bar_t * eps_theta) / sqrt_alpha_bar_t
         return x0_hat.clamp(-1.0, 1.0)
     
-    # ------------------------------------------------------------------ #
+# ------------------------------------------------------------------ #
 # Algorithm 4: Reverse diffusion sampler (DDPM)
 # ------------------------------------------------------------------ #
 
@@ -417,5 +417,3 @@ def algorithm4(x_T: torch.Tensor,
             x_t = mean
 
     return x_t  
-    
-

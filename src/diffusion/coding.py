@@ -365,3 +365,57 @@ class DiffusionCoder:
 
         x0_hat = (x_t - sqrt_one_minus_alpha_bar_t * eps_theta) / sqrt_alpha_bar_t
         return x0_hat.clamp(-1.0, 1.0)
+    
+    # ------------------------------------------------------------------ #
+# Algorithm 4: Reverse diffusion sampler (DDPM)
+# ------------------------------------------------------------------ #
+
+@torch.no_grad()
+def algorithm4(x_T: torch.Tensor,
+               model: nn.Module,
+               betas: torch.Tensor,
+               alphas: torch.Tensor,
+               alphas_cumprod: torch.Tensor):
+    """
+    DDPM Algorithm 4 (reverse diffusion):
+    Recover x_0 from a noisy x_T sample.
+    Args:
+        x_T : (B, C, H, W) image at timestep T (pure noise)
+        model: UNet that predicts epsilon
+        betas, alphas, alphas_cumprod : schedule tensors of shape (T,)
+
+    Returns:
+        x_0 reconstruction
+    """
+
+    x_t = x_T.clone()
+    T = len(betas)
+
+    for t in reversed(range(1, T)):
+        # schedules
+        beta_t = betas[t]
+        alpha_t = alphas[t]
+        alpha_bar_t = alphas_cumprod[t]
+
+        # timestep tensor (B,)
+        B = x_t.shape[0]
+        t_tensor = torch.full((B,), t, device=x_t.device, dtype=torch.long)
+
+        # predict noise
+        eps_theta = model(x_t, t_tensor)
+
+        # DDPM reverse update (Algorithm 2 core equation)
+        mean = (1 / torch.sqrt(alpha_t)) * (
+            x_t - (beta_t / torch.sqrt(1 - alpha_bar_t)) * eps_theta
+        )
+
+        # add stochastic noise except at t=0
+        if t > 0:
+            z = torch.randn_like(x_t)
+            x_t = mean + torch.sqrt(beta_t) * z
+        else:
+            x_t = mean
+
+    return x_t  
+    
+

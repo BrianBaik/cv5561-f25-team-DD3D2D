@@ -187,7 +187,7 @@ To reproduce the main qualitative and quantitative results:
    - Look at `outputs/samples/epoch_XX_samples.png` across epochs to see visual improvement.  
    - Use `outputs/samples/final_samples.png` (or equivalent) as a final qualitative result.
 
-4. **(Optional) Evaluation script**
+4. **Evaluation script**
 
    If you have an evaluation or sampling script like:
 
@@ -200,46 +200,5 @@ To reproduce the main qualitative and quantitative results:
    - Generate a batch of samples  
    - Save them under `outputs/samples/`  
    - Possibly compute evaluation metrics (PSNR, SSIM, FID, etc.) and log them under `outputs/logs/`.
-
----
-
-## 6. Project Structure (Example)
-
-Adjust this section to match your actual filenames:
-
-```text
-.
-├── train_ddpm.py           # main training script
-├── model/
-│   └── unet.py             # U-Net architecture used by DDPM
-├── schedules.py            # beta schedule utilities
-├── datasets.py             # dataset & dataloader definitions
-├── requirements.txt
-├── data/
-│   ├── train/              # training images
-│   └── val/                # validation images (optional)
-└── outputs/
-    ├── checkpoints/        # saved model .pt files
-    ├── samples/            # generated images / reconstructions
-    ├── logs/               # train_loss.csv, other logs
-    └── figures/            # loss_curve.png, other plots
-```
-
----
-
-## 7. Notes / Troubleshooting
-
-- If training is **very slow**, reduce:
-  - Image size (`--img_size`),  
-  - Number of diffusion timesteps,  
-  - Or number of epochs.
-
-- If results look like pure noise:
-  - Train longer (more epochs),  
-  - Check that the beta schedule and time embedding are implemented correctly,  
-  - Verify that images are normalized to the correct range (e.g., `[-1, 1]` or `[0, 1]`).
-
-- If paths don’t match:
-  - Search in `train_ddpm.py` for any `outputs/` / `samples/` / `checkpoints/` / `figures/` strings and sync this README’s paths with whatever is in the code.
 
 

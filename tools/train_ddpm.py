@@ -141,21 +141,6 @@ def train(args):
         os.path.join(train_config['task_name'], "noise_error_curve.png")
     )
 
-        # NEW: per-epoch MSE plot
-        plt.figure(figsize=(6, 4))
-        epochs = range(1, len(epoch_loss_history) + 1)
-        plt.plot(epochs, epoch_loss_history, marker='o')
-        plt.xlabel("Epoch")
-        plt.ylabel("MSE")
-        plt.title("Noise Prediction MSE per Epoch")
-        plt.tight_layout()
-        plt.savefig(os.path.join(train_config['task_name'], "epoch_mse_curve.png"))
-        plt.show()
-        plt.close()
-
-        print("Saved epoch MSE curve →",
-            os.path.join(train_config['task_name'], "epoch_mse_curve.png"))
-
 
 if __name__ == '__main__': 
     parser = argparse.ArgumentParser(description='Arguments for ddpm training')

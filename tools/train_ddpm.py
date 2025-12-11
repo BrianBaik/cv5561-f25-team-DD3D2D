@@ -87,8 +87,8 @@ def train(args):
         print(">>> STARTING TRAIN LOOP <<<")
         losses = []
         for batch_idx, im in enumerate(tqdm(mnist_loader)):
-            if max_batches is not None and batch_idx >= max_batches:
-                break
+            #if max_batches is not None and batch_idx >= max_batches:
+            #    break
 
             optimizer.zero_grad()
             im = im.float().to(device)

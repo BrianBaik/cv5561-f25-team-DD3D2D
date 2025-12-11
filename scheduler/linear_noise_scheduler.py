@@ -2,9 +2,7 @@ import torch
 
 
 class LinearNoiseScheduler:
-    r"""
-    Class for the linear noise scheduler that is used in DDPM.
-    """
+
     def __init__(self, num_timesteps, beta_start, beta_end):
         self.num_timesteps = num_timesteps
         self.beta_start = beta_start
@@ -17,13 +15,7 @@ class LinearNoiseScheduler:
         self.sqrt_one_minus_alpha_cum_prod = torch.sqrt(1 - self.alpha_cum_prod)
         
     def add_noise(self, original, noise, t):
-        r"""
-        Forward method for diffusion
-        :param original: Image on which noise is to be applied
-        :param noise: Random Noise Tensor (from normal dist)
-        :param t: timestep of the forward process of shape -> (B,)
-        :return:
-        """
+
         original_shape = original.shape
         batch_size = original_shape[0]
         
@@ -41,14 +33,7 @@ class LinearNoiseScheduler:
                 + sqrt_one_minus_alpha_cum_prod.to(original.device) * noise)
         
     def sample_prev_timestep(self, xt, noise_pred, t):
-        r"""
-            Use the noise prediction by model to get
-            xt-1 using xt and the noise predicted
-        :param xt: current timestep sample
-        :param noise_pred: model noise prediction
-        :param t: current timestep we are at
-        :return:
-        """
+
         x0 = ((xt - (self.sqrt_one_minus_alpha_cum_prod.to(xt.device)[t] * noise_pred)) /
               torch.sqrt(self.alpha_cum_prod.to(xt.device)[t]))
         x0 = torch.clamp(x0, -1., 1.)

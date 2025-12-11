@@ -13,10 +13,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 def sample(model, scheduler, train_config, model_config, diffusion_config):
-    r"""
-    Sample stepwise by going backward one timestep at a time.
-    We save the x0 predictions
-    """
+
     xt = torch.randn((train_config['num_samples'],
                       model_config['im_channels'],
                       model_config['im_size'],

@@ -3,13 +3,7 @@ import torch.nn as nn
 
 
 def get_time_embedding(time_steps, temb_dim):
-    r"""
-    Convert time steps tensor into an embedding using the
-    sinusoidal time embedding formula
-    :param time_steps: 1D tensor of length batch size
-    :param temb_dim: Dimension of the embedding
-    :return: BxD embedding representation of B time steps
-    """
+
     assert temb_dim % 2 == 0, "time embedding dimension must be divisible by 2"
     
     # factor = 10000^(2i/d_model)
@@ -25,13 +19,7 @@ def get_time_embedding(time_steps, temb_dim):
 
 
 class DownBlock(nn.Module):
-    r"""
-    Down conv block with attention.
-    Sequence of following block
-    1. Resnet block with time embedding
-    2. Attention block
-    3. Downsample using 2x2 average pooling
-    """
+
     def __init__(self, in_channels, out_channels, t_emb_dim,
                  down_sample=True, num_heads=4, num_layers=1):
         super().__init__()
@@ -109,13 +97,7 @@ class DownBlock(nn.Module):
 
 
 class MidBlock(nn.Module):
-    r"""
-    Mid conv block with attention.
-    Sequence of following blocks
-    1. Resnet block with time embedding
-    2. Attention block
-    3. Resnet block with time embedding
-    """
+
     def __init__(self, in_channels, out_channels, t_emb_dim, num_heads=4, num_layers=1):
         super().__init__()
         self.num_layers = num_layers
@@ -196,14 +178,7 @@ class MidBlock(nn.Module):
 
 
 class UpBlock(nn.Module):
-    r"""
-    Up conv block with attention.
-    Sequence of following blocks
-    1. Upsample
-    1. Concatenate Down block output
-    2. Resnet block with time embedding
-    3. Attention Block
-    """
+
     def __init__(self, in_channels, out_channels, t_emb_dim, up_sample=True, num_heads=4, num_layers=1):
         super().__init__()
         self.num_layers = num_layers
@@ -284,10 +259,7 @@ class UpBlock(nn.Module):
 
 
 class Unet(nn.Module):
-    r"""
-    Unet model comprising
-    Down blocks, Midblocks and Uplocks
-    """
+
     def __init__(self, model_config):
         super().__init__()
         im_channels = model_config['im_channels']

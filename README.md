@@ -201,4 +201,7 @@ To reproduce the main qualitative and quantitative results:
    - Save them under `outputs/samples/`  
    - Possibly compute evaluation metrics (PSNR, SSIM, FID, etc.) and log them under `outputs/logs/`.
 
-
+## 6. References
+https://hojonathanho.github.io/diffusion/
+https://dreamgaussian.github.io/ 
+Ho, J., Jain, A., & Abbeel, P. (2020). Denoising Diffusion Probabilistic Models. 
